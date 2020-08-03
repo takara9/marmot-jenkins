@@ -1,0 +1,16 @@
+---
+- name: base package
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - docker
+
+- name: jenkins
+  hosts: master
+  gather_facts: true
+  become: true
+  roles:
+    - jenkins
+    - kubernetes    
+    

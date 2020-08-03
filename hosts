@@ -1,0 +1,9 @@
+master    ansible_connection=local
+slave1    ansible_connection=local
+slave2    ansible_connection=local
+
+[jagents]
+slaves[1:2]
+
+
+

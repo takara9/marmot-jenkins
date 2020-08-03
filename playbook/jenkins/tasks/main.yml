@@ -1,0 +1,61 @@
+# Master と Workerで共通のタスク
+#- debug: msg="{{ ansible_facts }}"
+
+##  Jenkins のインストール
+- name: Add Jenkins GPG key
+  shell: |
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+    echo 'deb https://pkg.jenkins.io/debian-stable binary/' | tee -a /etc/apt/sources.list    
+
+- name: ensure the jenkins apt repository key is installed
+  apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+  become: yes
+
+- name: ensure the repository is configured
+  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+  become: yes
+
+- shell: |
+    apt list -a jenkins
+  
+- name: ensure jenkins is installed
+  apt: name=jenkins=2.235.3 update_cache=yes
+  become: yes
+
+- name: ensure jenkins is running
+  service: name=jenkins state=started
+
+## Apache2
+
+- name: ensure Apache2 is installed
+  apt: name=apache2 update_cache=yes
+  become: yes
+
+- name: ensure Apache2 is running
+  service: name=apache2 state=started
+
+- name: add proxy to apache
+  shell: |
+    a2enmod proxy
+    a2enmod proxy_http
+  become: yes
+  
+- name: setup config
+  template:
+    src: jenkins.conf.j2
+    dest: /etc/apache2/sites-available/jenkins.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: a2esite
+  shell: |
+    a2ensite jenkins
+  become: yes
+    
+- name: restart jenkins
+  service: name=jenkins state=restarted
+  
+- name: restart apache2
+  service: name=apache2 state=restarted
+    
