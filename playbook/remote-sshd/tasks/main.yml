@@ -1,0 +1,46 @@
+- name: Ensure /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+
+#############################
+- name: mkdir .ssh directory
+  file:
+    path: "/root/.ssh"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+    
+- name: Copy shared_fs keys to id_rsa.pub 
+  command: cp /vagrant/keys/id_rsa.pub /root/.ssh/id_rsa.pub 
+- file:
+    path: /root/.ssh/id_rsa.pub 
+    owner: root
+    group: root
+    mode: '0444'
+- name: Copy shared_fs/keys to id_rsa 
+  command: cp /vagrant/keys/id_rsa /root/.ssh/id_rsa 
+- file:
+    path: /root/.ssh/id_rsa 
+    owner: root
+    group: root
+    mode: '0400'
+
+- name: Create authorized_keys
+  command: cp /vagrant/keys/id_rsa.pub  /root/.ssh/authorized_keys
+- file:
+    path: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: '0400'
+
+  
+
+     
+
+

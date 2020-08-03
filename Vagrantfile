@@ -8,22 +8,20 @@ bridge_if = "en0: Wi-Fi (Wireless)"
 vm_spec = [
   { name: "master", cpu: 2, memory: 2048,
     box: linux_os,
-    private_ip: "172.16.20.5",
-    public_ip: "192.168.1.75",
+    private_ip: "172.16.2.15",
+    public_ip: "192.168.1.85",
     storage: [], playbook: "install.yaml",
     comment: "jenkins master" },
-#  { name: "jagent1", cpu: 1, memory: 1024,
-#    box: linux_os,
-#    private_ip: "172.16.20.6",
-#    public_ip: "192.168.1.76",
-#    storage: [], playbook: "install.yaml",
-#    comment: "jenkins agent-1" },
-#  { name: "jagent2", cpu: 1, memory: 1024,
-#    box: linux_os,
-#    private_ip: "172.16.20.7",
-#    public_ip: "192.168.1.77",
-#    storage: [], playbook: "install.yaml",
-#    comment: "jenkins agent-2" },
+  { name: "agent1", cpu: 1, memory: 1024,
+    box: linux_os,
+    private_ip: "172.16.2.16",
+    storage: [], playbook: "install.yaml",
+    comment: "jenkins agent-1" },
+  { name: "agent2", cpu: 1, memory: 1024,
+    box: linux_os,
+    private_ip: "172.16.2.17",
+    storage: [], playbook: "install.yaml",
+    comment: "jenkins agent-2" },
 ]
 
 
@@ -33,7 +31,9 @@ Vagrant.configure("2") do |config|
       v.vm.box = spec[:box]
       v.vm.hostname = spec[:name]
       v.vm.network :private_network,ip: spec[:private_ip]
-      v.vm.network :public_network,ip:  spec[:public_ip], bridge: bridge_if
+      if !( spec[:public_ip].nil? )
+        v.vm.network :public_network,ip:  spec[:public_ip], bridge: bridge_if
+      end	     
       v.vm.provider "virtualbox" do |vbox|
         vbox.gui = false
         vbox.cpus = spec[:cpu]

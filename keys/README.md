@@ -1,0 +1,2 @@
+Ansible playbookの中から masterからagentを操作するための
+ssh-keyを生成して、このディレクトリを使って配布します。

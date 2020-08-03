@@ -1,16 +1,21 @@
----
-- name: base package
-  hosts: all
-  gather_facts: true
+- name: create ssh-key
+  hosts: master
   become: true
   roles:
-    - docker
+    - create-sshkey
 
-- name: jenkins
+- name: copy ssh-key & install docker
+  hosts: all
+  become: true
+  roles:
+    - remote-sshd
+    - docker
+    
+- name: install jenkins
   hosts: master
   gather_facts: true
   become: true
   roles:
     - jenkins
     - kubernetes    
-    
+

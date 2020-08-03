@@ -51,4 +51,11 @@
     state: present
     reload: yes
 
+- name: chmod 0666 /var/run/docker.sock
+  file:
+    path: "/var/run/docker.sock"
+    owner: root
+    group: root
+    mode: '0666'
+
 
