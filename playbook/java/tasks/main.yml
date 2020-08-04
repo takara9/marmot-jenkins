@@ -1,0 +1,19 @@
+# Javaのインストール
+
+- name: Add Java APT repository
+  apt_repository:
+    repo: ppa:openjdk-r/ppa 
+      
+- name: Install a list of packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - openjdk-8-jdk
+
+

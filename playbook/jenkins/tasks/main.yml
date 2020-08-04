@@ -1,6 +1,3 @@
-# Master と Workerで共通のタスク
-#- debug: msg="{{ ansible_facts }}"
-
 ##  Jenkins のインストール
 - name: Add Jenkins GPG key
   shell: |
@@ -59,3 +56,5 @@
 - name: restart apache2
   service: name=apache2 state=restarted
     
+
+##
