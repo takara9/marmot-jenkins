@@ -1,9 +1,8 @@
 master    ansible_connection=local
-agent1    ansible_connection=local
-agent2    ansible_connection=local
+worker1   ansible_connection=local
+worker2   ansible_connection=local
 
 [jagents]
-agent[1:2]
-
+worker[1:2]
 
 
