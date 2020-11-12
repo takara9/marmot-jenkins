@@ -6,3 +6,14 @@ worker2   ansible_connection=local
 worker[1:2]
 
 
+[all:vars]
+
+# Vagrant
+disk1 = /dev/sdc
+disk2 = /dev/sdd
+
+# KVM
+#disk1 = /dev/vdb
+#disk2 = /dev/vdc
+
+

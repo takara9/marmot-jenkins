@@ -1,0 +1,28 @@
+## Hypervisor type
+##  kvm : CentOS8 virsh
+##  vv  : VirtualBox + Vagrant
+hypervisor: kvm
+
+### Master, Worker, Internal/Frontend Loadbalancer and bootnode
+vm_spec:
+  - name: "master1"
+    cpu: 2
+    memory: 2048
+    private_ip: "172.16.40.71"
+    public_ip: "192.168.1.71"
+    comment: "Jenkins master node #1"
+
+  - name: "worker1"
+    cpu: 2
+    memory: 2048
+    private_ip: "172.16.40.72"
+    public_ip: "192.168.1.72"
+    comment:  "Jenkins worker node #1"
+
+  - name: "node2"
+    cpu: 1
+    memory: 1024
+    private_ip: "172.16.40.73"
+    public_ip: "192.168.1.73"    
+    comment:  "Jenkins worker node #2"
+    
