@@ -3,23 +3,29 @@
 ##  vv  : VirtualBox + Vagrant
 hypervisor: kvm
 
+## Cluster Network
+private_ip_subnet: 172.16.40.0/24
+public_ip_subnet:  192.168.1.0/24
+
+domain: labs.local
+
 ### Master, Worker, Internal/Frontend Loadbalancer and bootnode
 vm_spec:
-  - name: "master1"
+  - name: "jenkins"
     cpu: 2
     memory: 2048
     private_ip: "172.16.40.71"
     public_ip: "192.168.1.71"
     comment: "Jenkins master node #1"
 
-  - name: "worker1"
+  - name: "jworker1"
     cpu: 2
     memory: 2048
     private_ip: "172.16.40.72"
     public_ip: "192.168.1.72"
     comment:  "Jenkins worker node #1"
 
-  - name: "node2"
+  - name: "jworker2"
     cpu: 1
     memory: 1024
     private_ip: "172.16.40.73"
