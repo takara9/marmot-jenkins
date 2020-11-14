@@ -6,18 +6,18 @@ linux_os = "ubuntu/bionic64"   # Ubuntu 18.04
 bridge_if = "en0: Wi-Fi (Wireless)"
 
 vm_spec = [
-  { name: "master", cpu: 2, memory: 2048,
+  { name: "jenkins", cpu: 2, memory: 2048,
     box: linux_os,
     private_ip: "172.16.2.15",
     public_ip: "192.168.1.85",
     storage: [], playbook: "install.yaml",
     comment: "jenkins master" },
-  { name: "worker1", cpu: 1, memory: 1024,
+  { name: "jworker1", cpu: 1, memory: 1024,
     box: linux_os,
     private_ip: "172.16.2.16",
     storage: [], playbook: "install.yaml",
     comment: "jenkins worker-1" },
-  { name: "worker2", cpu: 1, memory: 1024,
+  { name: "jworker2", cpu: 1, memory: 1024,
     box: linux_os,
     private_ip: "172.16.2.17",
     storage: [], playbook: "install.yaml",

@@ -1,5 +1,5 @@
 - name: install master
-  hosts: master
+  hosts: jenkins
   become: true
   roles:
     - create-sshkey

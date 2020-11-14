@@ -1,0 +1,8 @@
+- name: copy ssh config
+  template:
+    src: config
+    dest: "/home/{{ cluster_admin }}/.ssh/config"
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0400'
+    

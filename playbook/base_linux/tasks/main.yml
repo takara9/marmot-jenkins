@@ -1,0 +1,69 @@
+#- debug: msg="{{ ansible_facts }}"
+
+##
+## Ubuntu の 自動アップデートを禁止する
+##
+- replace:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    regexp: 'APT::Periodic::Update-Package-Lists "1";'
+    replace: 'APT::Periodic::Update-Package-Lists "0";'
+    backup: no
+
+##
+## 管理ユーザーをrootグループへ追加
+##
+- name: admin  user add root group
+  user:
+    name: "{{ cluster_admin }}"
+    groups: root
+    append: yes
+
+##
+## パッケージの追加
+##
+- name: Install Ubuntu package
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - nfs-common
+    - ruby
+    - emacs-nox
+
+
+- name: Ensure group 'admin' exists
+  group:
+    name:  "{{ cluster_admin }}"
+    state: present
+- name: Add the user 'admin' with a bash shell,
+  user:
+    name:  "{{ cluster_admin }}"
+    shell: /bin/bash
+    group: "{{ cluster_admin }}"
+- name: add sudoers
+  template:
+    src:  sudor.j2
+    dest: "/etc/sudoers.d/{{ cluster_admin }}"
+    owner: root
+    group: root
+    mode: '0440'
+
+
+
+- debug: msg="{{ ansible_facts.virtualization_type }}"
+##
+## sshkey sharing
+##
+- name: SSH KEY FOR VAGRANT
+  include_tasks: sshkey-sharing-vagrant.yaml
+  when: ansible_facts.virtualization_type == "virtualbox"
+
+##
+## sshkey sharing
+##
+- name: SSH-KEY FOR KVM VM
+  include_tasks: sshkey-sharing-kvm.yaml
+  when: ansible_facts.virtualization_type == "kvm"
+
+

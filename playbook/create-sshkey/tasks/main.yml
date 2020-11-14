@@ -1,6 +1,6 @@
 - name: check ssh-key existing
   stat:
-    path: /vagrant/keys/id_rsa.pub
+    path: "{{ dir_ssh }}"
   register: ssh_key
     
 - debug: msg="{{ ssh_key }}"
@@ -9,7 +9,7 @@
   command: ssh-keygen -t rsa -N '' -f id_rsa
   args:
     executable: /bin/bash
-    chdir: /vagrant/keys
+    chdir: "{{ dir_ssh }}"
   when: ssh_key.stat.exists == false
 
 

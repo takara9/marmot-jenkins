@@ -5,17 +5,19 @@
     owner: jenkins
     group: jenkins
     mode: '0700'
-
     
 - name: Copy shared_fs keys to id_rsa.pub 
-  command: cp /vagrant/keys/id_rsa.pub "{{ home_path }}/id_rsa.pub"
+  command: cp "{{ dir_ssh }}/id_rsa.pub" "{{ home_path }}/id_rsa.pub"
+  
 - file:
     path: "{{ home_path }}/id_rsa.pub"
     owner: jenkins
     group: jenkins
     mode: '0444'
+  
 - name: Copy shared_fs/keys to id_rsa 
-  command: cp /vagrant/keys/id_rsa "{{ home_path }}/id_rsa"
+  command: cp "{{ dir_ssh }}/id_rsa" "{{ home_path }}/id_rsa"  
+
 - file:
     path: "{{ home_path }}/id_rsa"
     owner: jenkins
@@ -23,14 +25,13 @@
     mode: '0400'
 
 - name: Create authorized_keys
-  command: cp /vagrant/keys/id_rsa.pub "{{ home_path }}/authorized_keys"
+  command: cp "{{ dir_ssh }}/id_rsa.pub" "{{ home_path }}/authorized_keys"
+
 - file:
     path:  "{{ home_path }}/authorized_keys"
     owner: jenkins
     group: jenkins
     mode: '0400'
-
-  
 
      
 

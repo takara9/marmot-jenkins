@@ -1,0 +1,78 @@
+#############################
+
+- name: check shared_fs
+  stat:
+    path: "{{ shared_fs }}"
+  register: regi_shared_fs
+    
+- debug: msg="{{ regi_shared_fs }}"
+
+- name: mkdir for keys
+  file:
+    path: "{{ shared_fs }}/keys"
+    state: directory
+    owner: root
+    group: root
+    mode: '0775'
+  when: regi_shared_fs.stat.exists == False
+
+
+- name: check ssh-key existing
+  stat:
+    path: "{{ shared_fs }}/keys/id_rsa.pub"
+  register: regi_ssh_key
+    
+- debug: msg="{{ regi_ssh_key }}"
+
+
+- name: create ssh-key
+  command: ssh-keygen -t rsa -N '' -f id_rsa
+  args:
+    executable: /bin/bash
+    chdir: "{{ shared_fs }}/keys"
+  when: regi_ssh_key.stat.exists == False
+
+
+#############################
+
+- name: mkdir .ssh directory
+  file:
+    path: "/home/{{ cluster_admin }}/.ssh"
+    state: directory
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0700'
+    
+- name: Copy id_rsa to cluster_admin  home
+  command: cp {{ shared_fs }}/keys/id_rsa /home/{{ cluster_admin }}/.ssh/id_rsa
+- file:
+    path: /home/{{ cluster_admin }}/.ssh/id_rsa
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0400'
+
+- name: Copy id_rsa.pub to  cluster_admin  home
+  command: cp {{ shared_fs }}/keys/id_rsa.pub /home/{{ cluster_admin }}/.ssh/id_rsa.pub
+- file:
+    path: "/home/{{ cluster_admin }}/.ssh/id_rsa.pub"
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0644'
+
+- name: add authorized_keys
+  shell: |
+     cat {{ shared_fs }}/keys/id_rsa.pub >> /home/{{ cluster_admin }}/.ssh/authorized_keys
+- file:
+    path: "/home/{{ cluster_admin }}/.ssh/authorized_keys"
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0400'
+
+    
+- name: Copy config
+  command: cp {{ shared_fs }}/keys/config /home/{{ cluster_admin }}/.ssh/config
+- file:
+    path: "/home/{{ cluster_admin }}/.ssh/config"
+    owner: "{{ cluster_admin }}"
+    group: "{{ cluster_admin }}"
+    mode: '0400'
