@@ -35,11 +35,14 @@
   group:
     name:  "{{ cluster_admin }}"
     state: present
+
+    
 - name: Add the user 'admin' with a bash shell,
   user:
     name:  "{{ cluster_admin }}"
     shell: /bin/bash
     group: "{{ cluster_admin }}"
+
 - name: add sudoers
   template:
     src:  sudor.j2
@@ -48,6 +51,16 @@
     group: root
     mode: '0440'
 
+- name: copy hosts
+  template:
+    src:  hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    
+
+    
 - debug: msg="{{ ansible_facts.virtualization_type }}"
 ##
 ## sshkey sharing
