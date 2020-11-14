@@ -24,7 +24,7 @@ dir_ssh   = /vagrant/keys
 home_path = /var/lib/jenkins/.ssh
 
 # for KVM
-dir_ssh = /root/.ssh
+#dir_ssh = /root/.ssh
 
 
 
