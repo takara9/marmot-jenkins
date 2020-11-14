@@ -31,7 +31,6 @@
     - ruby
     - emacs-nox
 
-
 - name: Ensure group 'admin' exists
   group:
     name:  "{{ cluster_admin }}"
@@ -49,16 +48,7 @@
     group: root
     mode: '0440'
 
-
-
 - debug: msg="{{ ansible_facts.virtualization_type }}"
-##
-## sshkey sharing
-##
-- name: SSH KEY FOR VAGRANT
-  include_tasks: sshkey-sharing-vagrant.yaml
-  when: ansible_facts.virtualization_type == "virtualbox"
-
 ##
 ## sshkey sharing
 ##

@@ -22,9 +22,11 @@ jworker[1:2]
 # for Vagrant
 dir_ssh   = /vagrant/keys
 home_path = /var/lib/jenkins/.ssh
+cluster_admin = vagrant
 
 # for KVM
 #dir_ssh = /root/.ssh
+#cluster_admin = ubuntu
 
 
 

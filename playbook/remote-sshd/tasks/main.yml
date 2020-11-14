@@ -1,12 +1,7 @@
-- name: Ensure /etc/hosts
-  template:
-    src: hosts.j2
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: '0644'
+##
+##
+##
 
-#############################
 - name: mkdir .ssh directory
   file:
     path: "/root/.ssh"
@@ -14,7 +9,6 @@
     owner: root
     group: root
     mode: '0700'
-
     
 - name: Copy shared_fs keys to id_rsa.pub 
   command: cp /vagrant/keys/id_rsa.pub /root/.ssh/id_rsa.pub 

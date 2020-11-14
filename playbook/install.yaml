@@ -6,12 +6,18 @@
     - java
     - jenkins
     - remote-agent
+
+- name: copy ssh-key  from /vagrant/keys  to /root/.ssh
+  hosts: all
+  become: true
+  roles:
+    - role: remote-sshd
+      when: ansible_facts.virtualization_type == "virtualbox"
     
 - name: install ssh-key & install docker
   hosts: all
   become: true
   roles:
-    - remote-sshd
     - docker
     - kubernetes
     - java

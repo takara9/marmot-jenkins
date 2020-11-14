@@ -1,0 +1,8 @@
+- name: setup master
+  hosts: jenkins
+  become: true
+  roles:
+    - base_linux
+
+
+
