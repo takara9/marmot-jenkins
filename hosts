@@ -3,6 +3,8 @@
 ###
 
 jenkins     ansible_connection=local
+
+# for Vagrant
 jworker1   ansible_connection=local
 jworker2   ansible_connection=local
 
@@ -19,9 +21,10 @@ jworker[1:2]
 ###
 [all:vars]
 
+home_path = /var/lib/jenkins/.ssh
+
 # for Vagrant
 dir_ssh   = /vagrant/keys
-home_path = /var/lib/jenkins/.ssh
 cluster_admin = vagrant
 
 # for KVM
