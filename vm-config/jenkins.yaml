@@ -4,7 +4,7 @@
 hypervisor: kvm
 
 ## Cluster Network
-private_ip_subnet: 172.16.40.0/24
+private_ip_subnet: 172.16.10.0/24
 public_ip_subnet:  192.168.1.0/24
 
 domain: labs.local
@@ -14,21 +14,21 @@ vm_spec:
   - name: "jenkins"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.40.71"
-    public_ip: "192.168.1.71"
+    private_ip: "172.16.10.223"
+    public_ip: "192.168.1.223"
     comment: "Jenkins master node #1"
 
   - name: "jworker1"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.40.72"
-    public_ip: "192.168.1.72"
+    private_ip: "172.16.10.224"
+    public_ip: "192.168.1.224"
     comment:  "Jenkins worker node #1"
 
   - name: "jworker2"
     cpu: 1
     memory: 1024
-    private_ip: "172.16.40.73"
-    public_ip: "192.168.1.73"    
+    private_ip: "172.16.10.225"
+    public_ip: "192.168.1.225"    
     comment:  "Jenkins worker node #2"
     
