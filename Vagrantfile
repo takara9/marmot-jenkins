@@ -75,7 +75,7 @@ Vagrant.configure("2") do |config|
         ansible.verbose        = false
         ansible.install        = true
         ansible.limit          = spec[:name] 
-        ansible.inventory_path = "hosts"
+        ansible.inventory_path = "hosts_vagrant"
       end
     
       # v.vm.provision "shell", inline: <<-SHELL
