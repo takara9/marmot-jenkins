@@ -5,11 +5,11 @@
 master      ansible_connection=local
 
 # for KVM
-node1       ansible_ssh_host=jworker1  ansible_ssh_private_key_file=/root/.ssh/id_rsa
-node2       ansible_ssh_host=jworker2  ansible_ssh_private_key_file=/root/.ssh/id_rsa
+node1       ansible_ssh_host=172.16.10.224  ansible_ssh_private_key_file=/root/.ssh/id_rsa
+node2       ansible_ssh_host=172.16.10.225  ansible_ssh_private_key_file=/root/.ssh/id_rsa
 
-[jagents]
-jworker[1:2]
+[nodes]
+node[1:2]
 
 
 ###

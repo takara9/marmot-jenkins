@@ -9,7 +9,7 @@ hypervisor: kvm
 
 
 ## Cluster Network
-private_ip_subnet: 172.16.20.0/24
+private_ip_subnet: 172.16.0.0/16
 public_ip_subnet:  10.0.0.0/8
 
 ### Network device and config
@@ -28,23 +28,25 @@ vm_spec:
   - name: "node1"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.20.224"
+    private_ip: "172.16.10.224"
     public_ip: "10.0.0.224"
     vm_host: auto
+    playbook: install_node.yaml    
     comment:  "Jenkins worker node #1"
     
   - name: "node2"
     cpu: 1
     memory: 1024
-    private_ip: "172.16.20.225"
+    private_ip: "172.16.10.225"
     public_ip: "10.0.0.225"
     vm_host: auto
+    playbook: install_node.yaml
     comment:  "Jenkins worker node #2"
     
   - name: "master"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.20.223"
+    private_ip: "172.16.10.223"
     public_ip: "10.0.0.223"
     vm_host: auto
     playbook: install.yaml

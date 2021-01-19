@@ -1,0 +1,8 @@
+- name: install ssh-key & install docker
+  hosts: nodes
+  become: true
+  roles:
+    - docker
+    - kubernetes
+    - java
+

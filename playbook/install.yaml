@@ -23,5 +23,8 @@
     - kubernetes
     - java
 
-
-
+  tasks:
+  - name: jenkins password
+    command: cat /var/lib/jenkins/secrets/initialAdminPassword
+    register: jenkins_pw
+  - debug: msg="initialAdminPassword = {{ jenkins_pw.stdout_lines }}"
