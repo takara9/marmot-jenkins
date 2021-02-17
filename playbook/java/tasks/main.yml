@@ -14,6 +14,6 @@
     - apt-transport-https
     - ca-certificates
     - software-properties-common
-    - openjdk-8-jdk
+    - openjdk-11-jdk
 
 

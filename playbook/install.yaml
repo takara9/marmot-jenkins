@@ -1,12 +1,17 @@
 - name: install master
   hosts: master
   become: true
+  gather_facts: yes  
+  tasks:
+    - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
   roles:
     - base_linux  
     - create-sshkey
     - java
     - jenkins
     - remote-agent
+    - apache_httpd
+    - create_tls_certs    
 
 - name: copy ssh-key  from /vagrant/keys  to /root/.ssh
   hosts: all
@@ -14,7 +19,8 @@
   roles:
     - role: remote-sshd
       when: ansible_facts.virtualization_type == "virtualbox"
-    
+
+
 - name: install ssh-key & install docker
   hosts: all
   become: true

@@ -1,0 +1,3 @@
+ca_dir:  /local_ca
+domain:  jenkins.labo.local
+dst_dir: /etc/apache2/

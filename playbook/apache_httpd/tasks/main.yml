@@ -1,0 +1,45 @@
+## Apache2
+- name: ensure Apache2 is installed
+  apt: name=apache2 update_cache=yes
+  become: yes
+
+- name: ensure Apache2 is running
+  service: name=apache2 state=started
+
+- name: add proxy to apache
+  shell: |
+    a2enmod proxy
+    a2enmod proxy_http
+  become: yes
+  
+- name: setup config
+  template:
+    src: jenkins.conf.j2
+    dest: /etc/apache2/sites-available/jenkins.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: setup config
+  template:
+    src: jenkins-tls.conf.j2
+    dest: /etc/apache2/sites-available/jenkins-tls.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: a2esite
+  shell: |
+    a2ensite jenkins
+    a2ensite jenkins-tls
+    a2enmod ssl
+  become: yes
+    
+- name: restart jenkins
+  service: name=jenkins state=restarted
+  
+- name: restart apache2
+  service: name=apache2 state=restarted
+    
+
+##

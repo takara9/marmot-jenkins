@@ -1,0 +1,46 @@
+- name: Configure HTTPS Access 
+  file:
+    path: "{{ ca_dir }}"
+    state: directory
+
+- name: copy v3.ext to {{ ca_dir }}
+  template:
+    src: v3.ext.j2
+    dest: "{{ ca_dir }}/v3.ext"
+      
+- name: Configure HTTPS Access to Harbor
+  shell: |
+    openssl genrsa -out ca.key 4096
+    openssl req -x509 -new -nodes -sha512 -days 3650 \
+       -subj "/C=JP/ST=Tokyo/L=Tokyo/O=homelab/OU=homelab/CN={{ domain }}" \
+       -key ca.key \
+       -out ca.crt
+    openssl genrsa -out {{ domain }}.key 4096
+    touch ~/.rnd
+    openssl req -sha512 -new \
+       -subj "/C=JP/ST=Tokyo/L=Tokyo/O=homelab/OU=homelab/CN={{ domain }}" \
+       -key {{ domain }}.key \
+       -out {{ domain }}.csr      
+    openssl x509 -req -sha512 -days 3650 \
+      -extfile v3.ext \
+      -CA ca.crt -CAkey ca.key -CAcreateserial \
+      -in {{ domain }}.csr \
+      -out {{ domain }}.crt
+    openssl x509 -inform PEM -in {{ domain }}.crt -out {{ domain }}.cert
+    mkdir -p {{ dst_dir }}/ssl
+    cp {{ domain }}.cert {{ dst_dir }}/ssl
+    cp {{ domain }}.key  {{ dst_dir }}/ssl
+    cp ca.crt            {{ dst_dir }}/ssl
+  args:
+    chdir: "{{ ca_dir }}"
+
+- debug: msg="virtualization_type = {{ ansible_facts.virtualization_type }}"
+  
+- shell: |
+    cp {{ domain }}.cert /vagrant/{{ domain }}.cert
+    cp {{ domain }}.key  /vagrant/{{ domain }}.key
+    cp ca.crt /vagrant/ca.crt
+  args:
+    chdir: "{{ ca_dir }}"
+  when: ansible_facts.virtualization_type == "virtualbox"
+

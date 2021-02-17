@@ -1,0 +1,12 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1=harbor.labo.local
+DNS.2=harbor
+IP.1={{ ansible_facts.enp2s0.ipv4.address }}
+IP.2={{ ansible_facts.enp3s0.ipv4.address }}
+

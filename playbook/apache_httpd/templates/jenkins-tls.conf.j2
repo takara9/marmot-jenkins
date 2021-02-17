@@ -1,0 +1,24 @@
+<IfModule mod_ssl.c>
+  <VirtualHost *:443>
+    ServerName        jenkins.labo.local
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    ProxyRequests     Off
+    ProxyPreserveHost On
+    AllowEncodedSlashes NoDecode
+    
+    <Proxy http://localhost:8080/*>
+      Order deny,allow
+      Allow from all
+    </Proxy>
+
+    ProxyPass         /  http://localhost:8080/ nocanon
+    ProxyPassReverse  /  http://localhost:8080/
+    ProxyPassReverse  /  http://jenkins.labo.local/
+
+    SSLCertificateFile "/etc/apache2/ssl/jenkins.labo.local.cert"
+    SSLCertificateKeyFile "/etc/apache2/ssl/jenkins.labo.local.key"
+
+  </VirtualHost>
+</IfModule>
