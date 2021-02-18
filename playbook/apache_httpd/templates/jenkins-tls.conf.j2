@@ -1,11 +1,11 @@
 <IfModule mod_ssl.c>
   <VirtualHost *:443>
-    ServerName        jenkins.labo.local
-    SSLEngine on
+    ServerName  jenkins.labo.local
+    SSLEngine   on
     SSLProtocol all -SSLv2 -SSLv3
 
-    ProxyRequests     Off
-    ProxyPreserveHost On
+    ProxyRequests       Off
+    ProxyPreserveHost   On
     AllowEncodedSlashes NoDecode
     
     <Proxy http://localhost:8080/*>
@@ -20,5 +20,7 @@
     SSLCertificateFile "/etc/apache2/ssl/jenkins.labo.local.cert"
     SSLCertificateKeyFile "/etc/apache2/ssl/jenkins.labo.local.key"
 
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
   </VirtualHost>
 </IfModule>

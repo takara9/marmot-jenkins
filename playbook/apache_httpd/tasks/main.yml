@@ -30,16 +30,16 @@
 
 - name: a2esite
   shell: |
-    a2ensite jenkins
+    #a2ensite jenkins
     a2ensite jenkins-tls
     a2enmod ssl
+    a2enmod headers
   become: yes
-    
-- name: restart jenkins
-  service: name=jenkins state=restarted
-  
-- name: restart apache2
-  service: name=apache2 state=restarted
-    
 
-##
+
+#- name: restart jenkins
+#  service: name=jenkins state=restarted
+  
+#- name: restart apache2
+#  service: name=apache2 state=restarted
+

@@ -70,3 +70,32 @@
   when: ansible_facts.virtualization_type == "kvm"
 
 
+#
+# DNSの設定を変更
+#
+- name: set systemd-resolved config
+  template:
+    src: resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+#
+# シンボリックリング /etc/resolv.conf を変更
+#
+- name: change symbolic link for /etc/resolv.conf
+  shell: |
+    ln -sf ../run/systemd/resolve/resolv.conf resolv.conf
+  args:
+    chdir: /etc
+
+#
+# リスタート　systemctl restart systemd-resolved
+#
+- systemd:
+    name: systemd-resolved
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+ 

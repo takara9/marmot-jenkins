@@ -5,14 +5,25 @@
   tasks:
     - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
   roles:
-    - base_linux  
+    - base_linux
     - create-sshkey
     - java
     - jenkins
     - remote-agent
-    - apache_httpd
+    - apache_httpd    
     - create_tls_certs    
 
+- name: start jenkins and apache
+  hosts: master
+  become: true
+  tasks:
+  - name: restart jenkins
+    service: name=jenkins state=restarted
+  
+  - name: restart apache2
+    service: name=apache2 state=restarted
+
+    
 - name: copy ssh-key  from /vagrant/keys  to /root/.ssh
   hosts: all
   become: true
