@@ -38,6 +38,12 @@
     comment: docker exection user
     group: docker
 
+- user:
+    name: jenkins
+    comment: docker exection user
+    groups: docker
+
+
 - name: Set sysctl 
   sysctl:
     name: net.bridge.bridge-nf-call-iptables
