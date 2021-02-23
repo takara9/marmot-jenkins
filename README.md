@@ -1,4 +1,4 @@
-# vagrant-jenkins
+# marmot-jenkins
 
 ## 概要
 
@@ -12,13 +12,13 @@ Jenkinsのジョブの中で以下を実行する。
 
 ## Jenkinsの環境
 
-Jenkinsのサーバーは３台構成
+Jenkinsのサーバーは最大３台構成
 
 * Jenkins マスター  master
-* Jenkins エージェント agent1, agent2
+* Jenkins エージェント node1, node2
 
 
-Vagrantから上記３台のサーバーを起動して、Ansible playbookにより以下を実行する。
+コマンドから上記３台のサーバーを起動して、Ansible playbookにより以下を実行する。
 
 * マスター上でssh鍵の生成
 * sshリモート操作環境の設定,hosts,公開鍵配布
@@ -30,25 +30,38 @@ Vagrantから上記３台のサーバーを起動して、Ansible playbookによ
 ## ブラウザアクセスするパソコンの設定
 
 パソコンの/etc/hostsに以下のエントリーを加える。
+アドレスは一定ではないので、Vagrantfile, Qemukvm.yaml, Qemukvm_s.yamlなどからマスターとなる
+JenkinsサーバーのIPアドレスを取得して、/etc/hostsへセットする。
 
 ~~~
 192.168.1.85 jenkins.labs.local
 ~~~
 
 
-## 起動方法
+## Vagrantでの起動方法
 
 ~~~
-$ git clone https://github.com/takara9/vagrant-jenkins
+$ git clone https://github.com/takara9/marmot-jenkins
+$ cd marmot-jenkins
 $ vagrant up
 ~~~
+
+
+## QEMU/KVMでの起動方法
+
+~~~
+$ git clone https://github.com/takara9/marmot-jenkins
+$ cd marmot-jenkins
+$ vm-create -f Qemukvm.yaml
+~~~
+
 
 
 ## 初期セットアップ
 
 ブラウザから http://jenkins.labo.local をアクセスする。パスワードが書き込まれたファイルのパスと初期パスワード入力の画面が表示される。
 
-`vagrant ssh master`でログインしてパスのファイルを開いてパススワードをコピーして、ブラウザ画面の入力フィールドへペーストしてエンターする。
+ログインしてパスのファイルを開いてパススワードをコピーして、ブラウザ画面の入力フィールドへペーストしてエンターする。
 
 プラグインの自動インストールか、手動で選択してインストールかの選択が出るので、自動インストールを選択する。
 
