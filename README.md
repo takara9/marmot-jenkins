@@ -59,37 +59,37 @@ $ vagrant up
 
 ジョブを実行するためのノードを２台登録する。
 
-* 「Jenkinsの管理」をクリック
-* 「ノードの管理」をクリック
-* 「新規ノード」の作成をクリック
-* ノード名をインプットして、Permanent Agent にマークして、OKをクリックする。
-* ノード登録の項目を埋めて保存ボタンをクリックする。
-    * ノード名 表示のためのフィールド
-    * 同時ビルド数は、vCPUの数と合わせ 1 とする
-    * リモートFSルートは、/var/jenkins をインプット
-    * ラベル Linux
-    * 用途 「このスレーブをできるだけ利用する」を選択
-    * 起動方法 「SSH経由でUnixマシンのスレーブエージェントを起動」を選択
-    * ホスト名、ユーザー名(root)、秘密鍵を設定する。秘密鍵は/vagrant/keysに生成されたid_rsaを指定する。
-    * "Host Key Verification Strategy" は、"Non verifying Verification Strategy"を選択
-    * 他の項目はデフォルトを利用
+1.「Jenkinsの管理」をクリック
+1.「ノードの管理」をクリック
+1.「新規ノード」の作成をクリック
+1.ノード名をインプットして、Permanent Agent にマークして、OKをクリックする。
+1.ノード登録の項目を埋めて保存ボタンをクリックする。
+    1.ノード名 表示のためのフィールド
+    1.同時ビルド数は、vCPUの数と合わせ 1 とする
+    1.リモートFSルートは、/var/jenkins をインプット
+    1.ラベル Linux
+    1.用途 「このスレーブをできるだけ利用する」を選択
+    1.起動方法 「SSH経由でUnixマシンのスレーブエージェントを起動」を選択
+    1.ホスト名、ユーザー名(root)、秘密鍵を設定する。秘密鍵はmasterノードにログインして.ssh/id_ras を cat で表示してコピペする。
+    1."Host Key Verification Strategy" は、"Non verifying Verification Strategy"を選択
+    1.他の項目はデフォルトを利用
 
-* 保存をクリックした後、リストから追加したノードをクリックして、ReLunch Agentをクリックしてエージェントを起動する。
+1.保存をクリックした後、リストから追加したノードをクリックして、ReLunch Agentをクリックしてエージェントを起動する。
+
 
 
 ## Jenkinsプラグインを導入
 
 プラグインは、以下を選択する。
 
-* Blue Ocean
+1.Blue Ocean
+1.GitLab plugin
 
-「Jenkinsの管理」->「プラグインの管理」->「利用可能」をクリックする。そして、filterにBlueと入れて絞り込まれたリストから、対象にチェックをいれる。「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
+「Jenkinsの管理」->「プラグインの管理」->「利用可能」をクリックする。そして、filterにBlueと入れて絞り込まれたリストから、対象にチェックをいれる。同様にGitlabも対象にチェックを入れる。「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
 
----
 
-## メモ
 
-* harbor, gitlab のCA証明書を /etc/ssl/certs へ配置しなければならない。
+## 編集メモ
 * jenkins は docker のグループに入る必要がある。
 * Harbor のプライベートリポジトリの認証情報を登録する必要がある。
 
@@ -102,9 +102,9 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 
 ### 自動実行のJenkins側の前提条件は以下
 * Harbor が起動していること
-* Harbor の CA証明書が JenkinsサーバーのLinuxにインポートされていること
+* Harbor の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
 * GitLab が起動していること
-* GitLan の CA証明書が JenkinsサーバーのLinixにインポートされていること
+* GitLan の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
 * JenkinsにGitLab Plugin がインストールされていること
 * Jenkins設定でGitLabのパラメーターが設定されていること。
    * Connection name
