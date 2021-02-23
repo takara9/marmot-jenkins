@@ -59,13 +59,61 @@ $ vm-create -f Qemukvm.yaml
 
 ## 初期セットアップ
 
-ブラウザから http://jenkins.labo.local をアクセスする。パスワードが書き込まれたファイルのパスと初期パスワード入力の画面が表示される。
+ブラウザから http://jenkins.labo.local をアクセスする。
+初期パスワード入力の画面が表示される。
 
-ログインしてパスのファイルを開いてパススワードをコピーして、ブラウザ画面の入力フィールドへペーストしてエンターする。
+パスワードが書き込まれたファイルのパスが表示されているので、
+ログインしてパスのファイルを開いてパスワードをコピーして、
+ブラウザ画面の入力フィールドへペーストしてEnterする。
 
-プラグインの自動インストールか、手動で選択してインストールかの選択が出るので、自動インストールを選択する。
 
-ユーザー名などを設定する画面が現れるので、画面の指示に従ってインプットする。
+以下どちらかの画面が表示される。本インストール方法では前者の画面が現れるように変わったようです。
+
+* Jenkinsのトップ画面が表示されるので、ユーザー登録とプラグインのインストールを実施する。
+* プラグインの自動か手動インストールの選択が出るので、自動インストールを選択する。次に、ユーザー名などを設定する画面が現れるので、画面の指示に従ってインプットする。
+
+後者の画面で進んだ場合は、次の「ユーザー登録」、「Jenkinsプラグイン導入」はスキップする。
+
+
+## ユーザー登録
+
+Jenkinsの管理 -> ユーザーの管理 -> ユーザー作成　へ進む
+
+管理ユーザーを設定する。
+
+
+## Jenkinsプラグインを導入
+
+Jenkinsの管理 -> プラグインの管理　へ移動
+
+「利用可能」のタブをクリックする。
+filterにBlueと入れて絞り込まれたリストから、対象にチェックをいれる。
+同様に他のプラグインもチェックを入れる。
+「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
+
+1.Folders
+1.OWASP Markup Formatter
+1.Build Timeout
+1.Credential Binding
+1.Timespamper
+1.Workspace Cleanup
+1.Ant
+1.Gradle
+1.Pipeline
+1.GitHub Branch Source
+1.Pipeline: GitHub Groovy Libraries
+1.Pipeline: Stage View
+1.Git
+1.GitLab
+1.SSH Build Agents
+1.Matrix Authorization Strategy
+1.PAM Authentication
+1.LDAP
+1.Email Extention
+1.Mailer
+1.Locale
+1.Blue Ocean
+1.Docker Pipeline
 
 
 
@@ -93,38 +141,8 @@ $ vm-create -f Qemukvm.yaml
 
 
 
-## Jenkinsプラグインを導入
+harborとgitlabからCAファイルを所得して、/etc/ssl/certsの下へおく
 
-プラグインは、以下を選択する。
-
-1.Folders
-1.OWASP Markup Formatter
-1.Build Timeout
-1.Credntial Binding
-1.Timespamper
-1.Workspace Cleanup
-1.Ant
-1.Gradle
-1.Pipeline
-1.GitHub Branch Source
-1.Pipeline: GitHub Groovy Libraries
-1.Pipeline: Stage View
-1.Git
-1.GitLab
-1.SSH Build Agents
-1.Matrix Authorization Strategy
-1.PAM Authentication
-1.LDAP
-1.Email Extention
-1.Mailer
-1.Locale
-
-1.Blue Ocean
-1.GitLab plugin
-
-
-
-「Jenkinsの管理」->「プラグインの管理」->「利用可能」をクリックする。そして、filterにBlueと入れて絞り込まれたリストから、対象にチェックをいれる。同様にGitlabも対象にチェックを入れる。「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
 
 
 
@@ -139,17 +157,24 @@ Jenkinsから変更をポーリングして変更を検知してジョブを実�
 git push を実行したタイミングでビルドのジョブが走る方法の二つの設定を記述する。
 これらの設定をしなくても、Jenkinsの管理画面からパイプラインのジョブを実行できる。
 
+
 ### 自動実行のJenkins側の前提条件は以下
 * Harbor が起動していること
 * Harbor の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
 * GitLab が起動していること
 * GitLan の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
+* JenkinsにDocker Pipelineがインストールされていること。
 * JenkinsにGitLab Plugin がインストールされていること
 * Jenkins設定でGitLabのパラメーターが設定されていること。
    * Connection name
    * Gitlab host URL
    * Credentials
    * Test Connection が成功すること
+* Jenkins設定でDeclarative Pipeline (Docker)にパラメーターが設定されていること
+   * Docker Label: harbor
+   * Docker registry URL:  https://harbor.labo.local.
+   * Registry credentials: ユーザー/パスワード 
+
 
 ### GitLab側の前提条件は以下
 * rootでログインして、スパナマークのアイコン(Admin Area) の Setting -> Network -> Outbound requests -> Allow requests to the local network from web hooks and services にチェックが入っていること
@@ -158,6 +183,8 @@ git push を実行したタイミングでビルドのジョブが走る方法�
    1. 秘密トークンに、Jenkins のプロジェクト、ビルドトリガーの高度な設定で生成したSercret Tokenがセットされていること。
    1. SSL証明書検証の有効化のチェックが外されていること（無効になっていること）
    1. テストボタンをクリックして、連携が成功すること
+
+
 
 
 ### GitLabリポジトリを5分間隔でポーリングして変更があった場合にビルドを実行する
