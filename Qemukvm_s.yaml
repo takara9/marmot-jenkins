@@ -21,7 +21,7 @@ public_ip_gw:  192.168.1.1
 public_ip_dns: 192.168.1.241
 
 cluster_name: jenkins
-
+domain: jenkins.labo.local
 
 ### Master, Worker, Internal/Frontend Loadbalancer and bootnode
 vm_spec:

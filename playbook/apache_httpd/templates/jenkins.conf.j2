@@ -1,5 +1,5 @@
 <Virtualhost *:80>
-    ServerName        jenkins.labo.local
+    ServerName        {{ domain }}
     ProxyRequests     Off
     ProxyPreserveHost On
     AllowEncodedSlashes NoDecode
@@ -11,5 +11,5 @@
  
     ProxyPass         /  http://localhost:8080/ nocanon
     ProxyPassReverse  /  http://localhost:8080/
-    ProxyPassReverse  /  http://jenkins.labo.local/
+    ProxyPassReverse  /  http://{{ domain }}/
 </Virtualhost>

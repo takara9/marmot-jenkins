@@ -68,6 +68,8 @@ $ vm-create -f Qemukvm.yaml
 ユーザー名などを設定する画面が現れるので、画面の指示に従ってインプットする。
 
 
+
+
 ## ノードの追加
 
 ジョブを実行するためのノードを２台登録する。
@@ -95,8 +97,32 @@ $ vm-create -f Qemukvm.yaml
 
 プラグインは、以下を選択する。
 
+1.Folders
+1.OWASP Markup Formatter
+1.Build Timeout
+1.Credntial Binding
+1.Timespamper
+1.Workspace Cleanup
+1.Ant
+1.Gradle
+1.Pipeline
+1.GitHub Branch Source
+1.Pipeline: GitHub Groovy Libraries
+1.Pipeline: Stage View
+1.Git
+1.GitLab
+1.SSH Build Agents
+1.Matrix Authorization Strategy
+1.PAM Authentication
+1.LDAP
+1.Email Extention
+1.Mailer
+1.Locale
+
 1.Blue Ocean
 1.GitLab plugin
+
+
 
 「Jenkinsの管理」->「プラグインの管理」->「利用可能」をクリックする。そして、filterにBlueと入れて絞り込まれたリストから、対象にチェックをいれる。同様にGitlabも対象にチェックを入れる。「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
 
