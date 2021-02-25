@@ -11,7 +11,8 @@
     - jenkins
     - remote-agent
     - apache_httpd    
-    - create_tls_certs    
+    #- create_tls_certs
+    - download_certs    
 
 - name: start jenkins and apache
   hosts: master
