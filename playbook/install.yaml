@@ -1,7 +1,21 @@
 - name: install master
   hosts: master
   become: true
-  gather_facts: yes  
+  gather_facts: yes
+  vars:
+    cluster_admin:  ubuntu  
+
+    fqdn:    jenkins.labo.local
+    domain:  "{{ fqdn }}"
+    
+    dst_dir:   /etc/apache2/ssl
+    home_path: /var/lib/jenkins/.ssh
+    dir_ssh:   /root/.ssh
+
+    ca_ip:   192.168.1.220
+    public_ip_dns: 192.168.1.241
+
+
   tasks:
     - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
   roles:
@@ -11,8 +25,8 @@
     - jenkins
     - remote-agent
     - apache_httpd    
-    #- create_tls_certs
     - download_certs    
+
 
 - name: start jenkins and apache
   hosts: master
@@ -20,17 +34,16 @@
   tasks:
   - name: restart jenkins
     service: name=jenkins state=restarted
-  
   - name: restart apache2
     service: name=apache2 state=restarted
 
-    
-- name: copy ssh-key  from /vagrant/keys  to /root/.ssh
-  hosts: all
-  become: true
-  roles:
-    - role: remote-sshd
-      when: ansible_facts.virtualization_type == "virtualbox"
+
+#- name: copy ssh-key  from /vagrant/keys  to /root/.ssh
+#  hosts: all
+#  become: true
+#  roles:
+#    - role: remote-sshd
+#      when: ansible_facts.virtualization_type == "virtualbox"
 
 
 - name: install ssh-key & install docker
@@ -40,7 +53,6 @@
     - docker
     - kubernetes
     - java
-
   tasks:
   - name: jenkins password
     command: cat /var/lib/jenkins/secrets/initialAdminPassword

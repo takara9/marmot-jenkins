@@ -17,11 +17,11 @@ node[1:2]
 ###
 [all:vars]
 
-home_path = /var/lib/jenkins/.ssh
-
+#home_path = /var/lib/jenkins/.ssh
+#
 # for KVM
-dir_ssh = /root/.ssh
-cluster_admin = ubuntu
-
-public_ip_dns = 192.168.1.241
+#dir_ssh = /root/.ssh
+#cluster_admin = ubuntu
+#domain = jenkins.labo.local
+#public_ip_dns = 192.168.1.241
 
