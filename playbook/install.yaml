@@ -12,8 +12,8 @@
     home_path: /var/lib/jenkins/.ssh
     dir_ssh:   /root/.ssh
 
-    ca_ip:   192.168.1.220
-    public_ip_dns: 192.168.1.241
+    ca_ip:         192.168.1.220
+    public_ip_dns: 192.168.1.220
 
 
   tasks:
@@ -32,10 +32,10 @@
   hosts: master
   become: true
   tasks:
-  - name: restart jenkins
-    service: name=jenkins state=restarted
   - name: restart apache2
     service: name=apache2 state=restarted
+  - name: restart jenkins
+    service: name=jenkins state=started
 
 
 #- name: copy ssh-key  from /vagrant/keys  to /root/.ssh
