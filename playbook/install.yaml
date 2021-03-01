@@ -27,7 +27,6 @@
     - apache_httpd    
     - download_certs    
 
-
 - name: start jenkins and apache
   hosts: master
   become: true
@@ -54,6 +53,8 @@
     - kubernetes
     - java
   tasks:
+  - name: restart docker
+    service: name=docker state=restarted
   - name: jenkins password
     command: cat /var/lib/jenkins/secrets/initialAdminPassword
     register: jenkins_pw

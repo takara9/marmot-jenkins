@@ -91,6 +91,7 @@ filterにBlueと入れて絞り込まれたリストから、対象にチェッ�
 同様に他のプラグインもチェックを入れる。
 「ダウンロード後再起動」を選択して、Jenkinsの再起動が完了するのを待つ。
 
+--- デフォルトでインストール
 1.Folders
 1.OWASP Markup Formatter
 1.Build Timeout
@@ -104,14 +105,15 @@ filterにBlueと入れて絞り込まれたリストから、対象にチェッ�
 1.Pipeline: GitHub Groovy Libraries
 1.Pipeline: Stage View
 1.Git
-1.GitLab
 1.SSH Build Agents
 1.Matrix Authorization Strategy
 1.PAM Authentication
 1.LDAP
 1.Email Extention
 1.Mailer
+--- 追加分
 1.Locale
+1.GitLab
 1.Blue Ocean
 1.Docker Pipeline
 

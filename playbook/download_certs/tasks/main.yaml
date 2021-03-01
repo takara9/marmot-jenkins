@@ -1,8 +1,3 @@
-#- name: Configure HTTPS Access 
-#  file:
-#    path: "{{ ca_dir }}"
-#    state: directory
-
 #
 # プライベートCA証明書の取得
 #
@@ -12,29 +7,6 @@
     dest: /etc/ssl/certs/labo_local_ca.pem
     validate_certs: no
     mode: 0440
-
-#- name: Download CA pem
-#  shell: |
-#    curl -k -O -L https://{{ ca_ip }}/ca.pem
-#    cp ca.pem /etc/ssl/certs/labo_local_ca.pem
-#  args:
-#    chdir: "{{ ca_dir }}"
-#
-#- name: Download Jenkins ssl certs
-#  shell: |
-#    curl -k -O -L https://{{ ca_ip }}/{{ domain }}/{{ domain }}.crt
-#    curl -k -O -L https://{{ ca_ip }}/{{ domain }}/{{ domain }}.key
-#  args:
-#    chdir: "{{ ca_dir }}"
-#
-#- name: Download Jenkins ssl certs
-#  shell: |
-#    mkdir -p {{ dst_dir }}/ssl
-#    cp {{ domain }}.crt  {{ dst_dir }}/ssl/{{ domain }}.cert
-#    cp {{ domain }}.key  {{ dst_dir }}/ssl/{{ domain }}.key
-#    cp ca.pem {{ dst_dir }}/ssl/labo_local_ca.pem
-#  args:
-#    chdir: "{{ ca_dir }}"
 
 #
 # ウェブサイト用の証明書の取得
