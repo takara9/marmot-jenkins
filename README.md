@@ -112,7 +112,6 @@ filterにBlueと入れて絞り込まれたリストから、対象にチェッ�
 1.Email Extention
 1.Mailer
 --- 追加分
-1.Locale
 1.GitLab
 1.Blue Ocean
 1.Docker Pipeline
@@ -234,4 +233,12 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 1. 「保存」をクリック
 
 
+## トラブル対応
 
+ビルドログで、以下のように、エラーが発生する時は、Jenkinsのサーバーにログインして、
+systemctl restart jenkins で再起動することで、解決する。
+
+~~~
++ docker build -t harbor.labo.local/tkr/webapl1:2 .
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.38/build?buildargs=%7B%7D&cachefrom=%5B%5D&cgroupparent=&cpuperiod=0&cpuquota=0&cpusetcpus=&cpusetmems=&cpushares=0&dockerfile=Dockerfile&labels=%7B%7D&memory=0&memswap=0&networkmode=default&rm=1&session=xhqo9gqeju9s1vi9lw31zlt6r&shmsize=0&t=harbor.labo.local%2Ftkr%2Fwebapl1%3A2&target=&ulimits=null&version=1: dial unix /var/run/docker.sock: connect: permission denied
+~~~
