@@ -16,7 +16,8 @@
     apt list -a jenkins
   
 - name: ensure jenkins is installed
-  apt: name=jenkins={{ jenkins_version }} update_cache=yes
+  #apt: name=jenkins={{ jenkins_version }} update_cache=yes
+  apt: name=jenkins={{ jenkins_version }}
   become: yes
 
 #- name: ensure jenkins is running

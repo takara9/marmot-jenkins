@@ -5,8 +5,8 @@
 master      ansible_connection=local
 
 # for KVM
-node1       ansible_ssh_host=172.16.10.224  ansible_ssh_private_key_file=/root/.ssh/id_rsa
-node2       ansible_ssh_host=172.16.10.225  ansible_ssh_private_key_file=/root/.ssh/id_rsa
+node1       ansible_ssh_host=172.16.0.224  ansible_ssh_private_key_file=/root/.ssh/id_rsa
+node2       ansible_ssh_host=172.16.0.225  ansible_ssh_private_key_file=/root/.ssh/id_rsa
 
 [nodes]
 node[1:2]
@@ -17,11 +17,13 @@ node[1:2]
 ###
 [all:vars]
 
-home_path = /var/lib/jenkins/.ssh
+home_path     = /var/lib/jenkins/.ssh
 
 # for KVM
-dir_ssh = /root/.ssh
+dir_ssh       = /root/.ssh
 cluster_admin = ubuntu
 
+ca_ip         = 192.168.1.8
+public_ip_dns = 192.168.1.8
 
 

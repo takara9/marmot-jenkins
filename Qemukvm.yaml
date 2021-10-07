@@ -1,51 +1,55 @@
 #
 # 最小構成のJenkins
 #
-domain: labs.local
+domain: labo.local
 
 ## Hypervisor type
 ##  kvm : QEMU+KVM + virsh
 hypervisor: kvm
 
-
 ## Cluster Network
 private_ip_subnet: 172.16.0.0/16
-public_ip_subnet:  10.0.0.0/8
+public_ip_subnet:  192.168.1.0/24
+
+public_ip_gw:  192.168.1.1
+public_ip_dns: 192.168.1.8
 
 ### Network device and config
 net_dev_default: enp1s0
 net_dev_private: enp2s0
 net_dev_public:  enp3s0
 
-public_ip_gw: 10.0.0.1
-public_ip_dns: 192.168.1.241
+#qcow2_image: ubuntu18.04.qcow2
+#os_variant:  ubuntu18.04
+
+qcow2_image: ubuntu20.04-amd.qcow2
+os_variant:  ubuntu20.04
 
 cluster_name: jenkins
-
 
 ### Master, Worker, Internal/Frontend Loadbalancer and bootnode
 vm_spec:
   - name: "node1"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.10.224"
-    public_ip: "10.0.0.224"
+    private_ip: "172.16.0.224"
+    public_ip:  "192.168.1.224"
     playbook: install_node.yaml    
     comment:  "Jenkins worker node #1"
-    
-  - name: "node2"
-    cpu: 1
-    memory: 1024
-    private_ip: "172.16.10.225"
-    public_ip: "10.0.0.225"
-    playbook: install_node.yaml
-    comment:  "Jenkins worker node #2"
+  #  
+  #- name: "node2"
+  #  cpu: 1
+  #  memory: 1024
+  #  private_ip: "172.16.10.225"
+  #  public_ip: "10.0.0.225"
+  #  playbook: install_node.yaml
+  #  comment:  "Jenkins worker node #2"
     
   - name: "master"
     cpu: 2
     memory: 2048
-    private_ip: "172.16.10.223"
-    public_ip: "10.0.0.223"
+    private_ip: "172.16.0.223"
+    public_ip:  "192.168.1.223"
     playbook: install.yaml
     comment: "Jenkins master node #1"
 
