@@ -12,13 +12,15 @@
   apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
   become: yes
 
-- shell: |
-    apt list -a jenkins
-  
+- command: apt update -y
+
+- command: apt list -a jenkins
+
 - name: ensure jenkins is installed
-  #apt: name=jenkins={{ jenkins_version }} update_cache=yes
-  apt: name=jenkins={{ jenkins_version }}
-  become: yes
+  apt:
+    name: jenkins={{ jenkins_version }}
+    update_cache: yes
+
 
 #- name: ensure jenkins is running
 #  service: name=jenkins state=started

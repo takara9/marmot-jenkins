@@ -21,8 +21,9 @@
     - curl
     - software-properties-common
     - nfs-common
-    - docker-ce{{ docker_version_ubuntu }}
+    #- docker-ce{{ docker_version_ubuntu }}
     - software-properties-common
+    - docker.io
 
 - name: docker config
   template:

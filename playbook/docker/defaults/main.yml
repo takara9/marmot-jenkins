@@ -1,6 +1,6 @@
 # default var file
 
 # Docker Package Version
-docker_version_ubuntu: =18.06.1~ce~3-0~ubuntu
-
+#docker_version_ubuntu: =18.06.1~ce~3-0~ubuntu
+docker_version_ubuntu: =5:18.09.9~3-0~ubuntu-bionic
 

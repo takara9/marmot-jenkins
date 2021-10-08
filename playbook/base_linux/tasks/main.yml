@@ -18,6 +18,12 @@
     groups: root
     append: yes
 
+
+- name: update ca certs etc
+  shell: |
+    apt install ca-certificates
+    apt update -y
+
 ##
 ## パッケージの追加
 ##
