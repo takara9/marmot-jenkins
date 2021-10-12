@@ -115,6 +115,7 @@ filterにBlueと入れて絞り込まれたリストから、対象にチェッ�
 1.GitLab
 1.Blue Ocean
 1.Docker Pipeline
+1.Kubernetes CLI
 
 
 
@@ -160,30 +161,44 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 
 
 ### 自動実行のJenkins側の前提条件は以下
-* Harbor が起動していること
-* Harbor の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
-* GitLab が起動していること
-* GitLan の CA証明書が Jenkinsサーバーの/etc/ssl/certs へ配置されていること
+* HarborとGitLabが起動していること
+* Ubuntu18.4 では、HarborとGitLabのプライベートCA証明書がJenkinsサーバーの/etc/ssl/certs へ配置されていること
+* Ubuntu20.4 では、HarborとGitLabのプライベートCA証明書が/usr/share/ca-certificates に配置され、証明書ファイル名が/etc/ca-certificates.confに追加され、update-ca-certificates が実行され成功していること。
+
 * JenkinsにDocker Pipelineがインストールされていること。
 * JenkinsにGitLab Plugin がインストールされていること
-* Jenkins設定でGitLabのパラメーターが設定されていること。
+* Jenkins管理->システム設定でGitLabのパラメーターが設定されていること。
    * Connection name
    * Gitlab host URL
-   * Credentials
+   * Credentials (アクセストークンの設定は以下の補足）
    * Test Connection が成功すること
+   * SSLエラーが出る場合は上記プライベートCA証明書が登録されていることを確認する
+   
 * Jenkins設定でDeclarative Pipeline (Docker)にパラメーターが設定されていること
    * Docker Label: harbor
-   * Docker registry URL:  https://harbor.labo.local.
+   * Docker registry URL:  https://harbor.labo.local
+   * Jenkinsfileの中のHarborの認証情報が登録されているか、一致しているか？
    * Registry credentials: ユーザー/パスワード 
 
 
 ### GitLab側の前提条件は以下
 * rootでログインして、スパナマークのアイコン(Admin Area) の Setting -> Network -> Outbound requests -> Allow requests to the local network from web hooks and services にチェックが入っていること
-* Jenkingと連携するユーザーでログインして、Settings -> Webhooks に設定がされていること。
+* Jenkingと連携するユーザーでログインして、当該プロジェクトのSettings -> Webhooks に設定がされていること。
    1. URL に Jenkins プロジェクトのURL
    1. 秘密トークンに、Jenkins のプロジェクト、ビルドトリガーの高度な設定で生成したSercret Tokenがセットされていること。
    1. SSL証明書検証の有効化のチェックが外されていること（無効になっていること）
    1. テストボタンをクリックして、連携が成功すること
+
+
+### GitLabアクセストークンの取得と設定
+
+1. rootをログアウトして、一般ユーザーで入り直す。
+1. プロジェクトの一つを選択して、Settings -> Access Tokens へ進む
+1. Token name は Jenkins-Webapl-2 などJenkinsクラスタとジョブが判別できるようにインプット
+1. Select scopes は すべてにチェックを入れる
+1. [Create project access token]をクリック、表示されたトークンをコピー
+
+以上
 
 
 
