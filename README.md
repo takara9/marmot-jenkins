@@ -115,7 +115,7 @@ filterにBlueと入れて絞り込まれたリストから、対象にチェッ�
 1.GitLab
 1.Blue Ocean
 1.Docker Pipeline
-1.Kubernetes CLI
+
 
 
 
@@ -160,10 +160,11 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 これらの設定をしなくても、Jenkinsの管理画面からパイプラインのジョブを実行できる。
 
 
+
 ### 自動実行のJenkins側の前提条件は以下
 * HarborとGitLabが起動していること
-* Ubuntu18.4 では、HarborとGitLabのプライベートCA証明書がJenkinsサーバーの/etc/ssl/certs へ配置されていること
-* Ubuntu20.4 では、HarborとGitLabのプライベートCA証明書が/usr/share/ca-certificates に配置され、証明書ファイル名が/etc/ca-certificates.confに追加され、update-ca-certificates が実行され成功していること。
+* 廃止Ubuntu18.4 では、HarborとGitLabのプライベートCA証明書がJenkinsサーバーの/etc/ssl/certs へ配置されていること
+* HarborとGitLabのプライベートCA証明書が/usr/share/ca-certificates に配置され、証明書ファイル名が/etc/ca-certificates.confに追加され、update-ca-certificates が実行され成功していること。
 
 * JenkinsにDocker Pipelineがインストールされていること。
 * JenkinsにGitLab Plugin がインストールされていること
@@ -179,6 +180,14 @@ git push を実行したタイミングでビルドのジョブが走る方法�
    * Docker registry URL:  https://harbor.labo.local
    * Jenkinsfileの中のHarborの認証情報が登録されているか、一致しているか？
    * Registry credentials: ユーザー/パスワード 
+
+* kubeconfigのファイルがアップロードされ、Credentials に登録されていること。
+   * Jenkinsの管理 -> Manage Credentials -> Domain(Global)のメニューで Add Credentials を選択
+   * 種類でSecret fileを選択
+   * Fileの選択でkubectlのkubeconfファイルを選択してアップロードする
+   * id は、Kubernetesクラスタが識別できるようにクラスタ名をセットする
+
+
 
 
 ### GitLab側の前提条件は以下
@@ -197,8 +206,6 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 1. Token name は Jenkins-Webapl-2 などJenkinsクラスタとジョブが判別できるようにインプット
 1. Select scopes は すべてにチェックを入れる
 1. [Create project access token]をクリック、表示されたトークンをコピー
-
-以上
 
 
 
