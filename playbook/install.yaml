@@ -4,7 +4,7 @@
   gather_facts: yes
   vars:
     cluster_admin:  ubuntu  
-
+    mail_domain: "labo.local"    
     fqdn:    jenkins.labo.local
     domain:  "{{ fqdn }}"
     
@@ -21,7 +21,8 @@
     - jenkins
     - remote-agent
     - apache_httpd    
-    - download_certs    
+    - download_certs
+    - mail-client
 
 - name: start jenkins and apache
   hosts: master
