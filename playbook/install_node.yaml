@@ -1,9 +1,12 @@
 - name: install ssh-key & install docker
   hosts: nodes
   become: true
+  vars:
+    mail_domain: "labo.local"    
   roles:
     - base_linux
     - docker
     - kubernetes
     - java
-
+    - mail-client
+    
