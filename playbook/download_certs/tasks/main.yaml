@@ -19,8 +19,6 @@
   shell: |
     echo "labo_local_ca.crt" >> /etc/ca-certificates.conf
     update-ca-certificates
-  args:
-    chdir: "{{ ca_dir }}"
 
 
 #
