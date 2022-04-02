@@ -188,16 +188,19 @@ git push を実行したタイミングでビルドのジョブが走る方法�
    * id は、Kubernetesクラスタが識別できるようにクラスタ名をセットする
 
 
-
-
-### GitLab側の前提条件は以下
-* rootでログインして、スパナマークのアイコン(Admin Area) の Setting -> Network -> Outbound requests -> Allow requests to the local network from web hooks and services にチェックが入っていること
-* Jenkingと連携するユーザーでログインして、当該プロジェクトのSettings -> Webhooks に設定がされていること。
-   1. URL に Jenkins プロジェクトのURL
-   1. 秘密トークンに、Jenkins のプロジェクト、ビルドトリガーの高度な設定で生成したSercret Tokenがセットされていること。
-   1. SSL証明書検証の有効化のチェックが外されていること（無効になっていること）
-   1. テストボタンをクリックして、連携が成功すること
-
+### Jenkinsのジョブ作成
+* 「ジョブ作成」->ジョブ名入力でインプット
+* 「パイプライン」を選択して「OK」をクリック
+   ・GitLab Connection: gitlab
+   ・ビルドトリガの「Build when a change is pushed to GitLab. GitLab webhook URL: https://jenkins.labo.local/project/webapl-1」にチェック
+   ・「高度な設定」をクリック
+   ・Secret token: 空欄のままで、[Generate]をクリック
+   ・パイプラインの定義: 「Pipeline script from SCM」を選択
+   ・SCM: Git を選択
+   ・リポジトリURL: https://gitlab.labo.local/tkr/webapl-1
+   ・認証情報を選択: （既に登録してあるものを登録するか、追加するか、どちらか）
+   ・Script Path: Jenkinsfile をセット
+   ・[Apply]をクリックして終了
 
 ### GitLabアクセストークンの取得と設定
 
@@ -206,6 +209,26 @@ git push を実行したタイミングでビルドのジョブが走る方法�
 1. Token name は Jenkins-Webapl-2 などJenkinsクラスタとジョブが判別できるようにインプット
 1. Select scopes は すべてにチェックを入れる
 1. [Create project access token]をクリック、表示されたトークンをコピー
+
+
+### GitLab側の前提条件は以下
+* rootでログインして、スパナマークのアイコン(Admin Area) の Setting -> Network -> Outbound requests -> Allow requests to the local network from web hooks and services にチェックが入っていること
+
+* Jenkingと連携するユーザーでログインして、当該プロジェクトのSettings -> Webhooks に設定がされていること。
+   1. URL に Jenkins プロジェクトのURL
+   1. 秘密トークンに、Jenkins のプロジェクト、ビルドトリガーの高度な設定で生成したSercret Tokenがセットされていること。
+   1. SSL証明書検証の有効化のチェックが外されていること（無効になっていること）
+   1. [Add webhook]をクリック
+   1. [テスト]ボタンをクリックして、連携が成功すること
+
+  　ジョブが実行され、GitLabからgit cloneが実行される
+  　途中で失敗した時は、該当ジョブの「名前」をクリック、
+  　最新の完了ビルドをクリック-> Console Output をクリック
+  　エラーメッセージが表示されているので、対処する。
+  
+  　
+
+
 
 
 

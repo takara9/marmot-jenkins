@@ -8,6 +8,21 @@
     validate_certs: no
     mode: 0440
 
+- name: Download CA pem for Ubuntu 20.04 ca-certs
+  get_url:
+    url: "https://{{ ca_ip }}/ca.pem"
+    dest: /usr/share/ca-certificates/labo_local_ca.crt
+    validate_certs: no
+    mode: 0440
+
+- name: Execute update-ca-certificates
+  shell: |
+    echo "labo_local_ca.crt" >> /etc/ca-certificates.conf
+    update-ca-certificates
+  args:
+    chdir: "{{ ca_dir }}"
+
+
 #
 # ウェブサイト用の証明書の取得
 #
@@ -27,6 +42,9 @@
     dest: "{{ dst_dir }}/{{ fqdn }}.key"
     validate_certs: no
     mode: 0440
+
+
+
 
 
 #- debug: msg="virtualization_type = {{ ansible_facts.virtualization_type }}"

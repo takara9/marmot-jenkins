@@ -11,7 +11,7 @@ hypervisor: kvm
 ## 仮想マシンイメージの設定
 ##
 image_template_path: /home/images
-image_default_path:  /home/images
+image_default_path:  /stg2
 #qcow2_image: ubuntu18.04.qcow2
 #os_variant:  ubuntu18.04
 qcow2_image: ubuntu20.04-amd.qcow2
@@ -36,7 +36,7 @@ net_dev_public:  enp3s0
 vm_spec:
   - name: "node1"
     cpu: 2
-    memory: 2048
+    memory: 8192
     private_ip: "172.16.0.224"
     public_ip:  "192.168.1.224"
     playbook: install_node.yaml    
@@ -52,7 +52,7 @@ vm_spec:
     
   - name: "master"
     cpu: 2
-    memory: 2048
+    memory: 4096
     private_ip: "172.16.0.223"
     public_ip:  "192.168.1.223"
     playbook: install.yaml
