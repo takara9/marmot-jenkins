@@ -1,5 +1,5 @@
-- name: install master
-  hosts: master
+- name: install controller
+  hosts: control
   become: true
   gather_facts: yes
   vars:
@@ -12,8 +12,8 @@
     home_path: /var/lib/jenkins/.ssh
     dir_ssh:   /root/.ssh
 
-  tasks:
-    - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
+  #tasks:
+  #  - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
   roles:
     - base_linux
     - create-sshkey
@@ -25,7 +25,7 @@
     - mail-client
 
 - name: start jenkins and apache
-  hosts: master
+  hosts: control
   become: true
   tasks:
   - name: restart apache2
@@ -43,7 +43,7 @@
 
 
 - name: install ssh-key & install docker
-  hosts: all
+  hosts: control
   become: true
   roles:
     - docker

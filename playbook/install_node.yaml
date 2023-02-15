@@ -1,5 +1,5 @@
 - name: install ssh-key & install docker
-  hosts: nodes
+  hosts: builds
   become: true
   vars:
     mail_domain: "labo.local"

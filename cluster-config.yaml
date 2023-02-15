@@ -48,8 +48,12 @@ vm_spec:
     private_ip: "172.16.0.225"
     public_ip:  "192.168.1.225"
     storage:
-    - 50
-    - 80    
+    - name: log
+      size: 50
+      path: /stg2
+    - name: data
+      size: 80
+      path: /stg2
     playbook: install_node.yaml
     comment:  "Jenkins worker node #2"
 
