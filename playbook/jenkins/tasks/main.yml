@@ -2,7 +2,7 @@
 - name: Add Jenkins GPG key
   shell: |
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-    echo 'deb https://pkg.jenkins.io/debian-stable binary/' | tee -a /etc/apt/sources.list    
+    echo 'deb https://pkg.jenkins.io/debian-stable binary/' | tee -a /etc/apt/sources.list
 
 - name: ensure the jenkins apt repository key is installed
   apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present

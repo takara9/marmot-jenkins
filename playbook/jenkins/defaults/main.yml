@@ -2,7 +2,8 @@
 #jenkins_version: 2.235.5 # OK
 #jenkins_version: 2.249.3 # NG
 #jenkins_version: 2.263.4 # NG
-jenkins_version: 2.303.2 
+#jenkins_version: 2.303.2 # NG
+jenkins_version: 2.387.1
 
 
 
