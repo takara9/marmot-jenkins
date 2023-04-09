@@ -34,15 +34,19 @@
   vars:
     packages:
     - nfs-common
+    - nfs-client
     - ruby
     - emacs-nox
+    - rsync
+
+
 
 - name: Ensure group 'admin' exists
   group:
     name:  "{{ cluster_admin }}"
     state: present
 
-    
+
 - name: Add the user 'admin' with a bash shell,
   user:
     name:  "{{ cluster_admin }}"
@@ -64,9 +68,8 @@
     owner: root
     group: root
     mode: '0644'
-    
 
-    
+
 - debug: msg="{{ ansible_facts.virtualization_type }}"
 ##
 ## sshkey sharing
@@ -104,4 +107,9 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
- 
+
+#
+# NFS
+#
+- name: Mount NFS
+  include_tasks: nfs-mount.yaml

@@ -12,14 +12,6 @@
     a2enmod proxy_http
     a2enmod headers
   become: yes
-  
-#- name: setup config
-#  template:
-#    src: jenkins.conf.j2
-#    dest: /etc/apache2/sites-available/jenkins.conf
-#    owner: root
-#    group: root
-#    mode: '0644'
 
 - name: setup config
   template:
@@ -38,9 +30,4 @@
   become: yes
 
 
-#- name: restart jenkins
-#  service: name=jenkins state=restarted
-  
-#- name: restart apache2
-#  service: name=apache2 state=restarted
 

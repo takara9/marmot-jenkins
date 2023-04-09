@@ -1,18 +1,14 @@
 - name: check ssh-key existing
   stat:
-    path: "{{ dir_ssh }}/id_rsa"
+    path: "{{ root_ssh }}/id_rsa"
   register: ssh_key
-    
+
 #- debug: msg="{{ ssh_key }}"
 
 - name: create ssh-key
   command: ssh-keygen -t rsa -N '' -f id_rsa
   args:
     executable: /bin/bash
-    chdir: "{{ dir_ssh }}"
+    chdir: "{{ root_ssh }}"
   when: ssh_key.stat.exists == false
-
-
-     
-
 

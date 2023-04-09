@@ -7,34 +7,30 @@ os_variant:  ubuntu20.04
 
 ### Master, Worker, Internal/Frontend Loadbalancer and bootnode
 vm_spec:
-  - name: "build1"
-    cpu: 2
-    memory: 8192
-    private_ip: "172.16.0.224"
-    public_ip:  "192.168.1.224"
-    playbook: install_node.yaml
-    comment:  "Jenkins worker node #1"
-
-  - name: "build2"
-    cpu: 2
-    memory: 8192
-    private_ip: "172.16.0.225"
-    public_ip:  "192.168.1.225"
-    storage:
-    - name: log
-      size: 50
-      vg:   vg3
-    - name: data
-      size: 80
-      vg:   vg3
-    playbook: install_node.yaml
-    comment:  "Jenkins worker node #2"
-
   - name: "control"
     cpu: 2
     memory: 4096
     private_ip: "172.16.0.223"
     public_ip:  "192.168.1.223"
+    storage:
+    - name: jenkins-data
+      size: 40
+      vg:   vg2
     playbook: install.yaml
     comment: "Jenkins master node #1"
+
+  - name: "build1"
+    cpu: 2
+    memory: 8192
+    private_ip: "172.16.0.224"
+    public_ip:  "192.168.1.224"
+    storage:
+    - name: log
+      size: 10
+      vg:   vg3
+    - name: data
+      size: 40
+      vg:   vg2
+    playbook: install_node.yaml
+    comment:  "Jenkins worker node #2"
 

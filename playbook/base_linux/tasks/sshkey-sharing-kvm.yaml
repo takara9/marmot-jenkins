@@ -5,4 +5,4 @@
     owner: "{{ cluster_admin }}"
     group: "{{ cluster_admin }}"
     mode: '0400'
-    
+ 

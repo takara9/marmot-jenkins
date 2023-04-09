@@ -26,32 +26,20 @@
 #
 - name: mkdir dest dir
   file:
-    path: "{{ dst_dir }}"
+    path: "{{ web_cert }}"
     state: directory
 
 - name: Download Web-Site SSL Certs
   get_url:
     url:  "https://{{ ca_ip }}/{{ fqdn }}/{{ fqdn }}.crt"
-    dest: "{{ dst_dir }}/{{ fqdn }}.cert"
+    dest: "{{ web_cert }}/{{ fqdn }}.cert"
     validate_certs: no
     mode: 0440
 - get_url:
     url:  "https://{{ ca_ip }}/{{ fqdn }}/{{ fqdn }}.key"
-    dest: "{{ dst_dir }}/{{ fqdn }}.key"
+    dest: "{{ web_cert }}/{{ fqdn }}.key"
     validate_certs: no
     mode: 0440
 
 
-
-
-
-#- debug: msg="virtualization_type = {{ ansible_facts.virtualization_type }}"
-#  
-#- shell: |
-#    cp {{ domain }}.cert /vagrant/{{ domain }}.cert
-#    cp {{ domain }}.key  /vagrant/{{ domain }}.key
-#    cp ca.crt /vagrant/ca.crt
-#  args:
-#    chdir: "{{ ca_dir }}"
-#  when: ansible_facts.virtualization_type == "virtualbox"
 

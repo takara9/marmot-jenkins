@@ -1,0 +1,15 @@
+###
+### プレイブックに与える変数
+###
+[all:vars]
+
+home_path     = /var/lib/jenkins/.ssh
+
+# for KVM
+dir_ssh       = /root/.ssh
+cluster_admin = ubuntu
+
+ca_ip         = 192.168.1.8
+public_ip_dns = 192.168.1.8
+
+

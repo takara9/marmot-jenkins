@@ -3,26 +3,32 @@
   become: true
   gather_facts: yes
   vars:
-    cluster_admin:  ubuntu  
-    mail_domain: "labo.local"    
-    fqdn:    jenkins.labo.local
-    domain:  "{{ fqdn }}"
-    
-    dst_dir:   /etc/apache2/ssl
-    home_path: /var/lib/jenkins/.ssh
-    dir_ssh:   /root/.ssh
+    cluster_admin:  "ubuntu"
+    mail_domain:    "labo.local"
+    fqdn:           "jenkins.labo.local"
+    domain:         "{{ fqdn }}"
+    disk1:          "/dev/vdb"
+    path1:          "/var/lib/jenkins"
+    disk2:          "/dev/vdc"
+    #dst_dir:       "/etc/apache2/ssl"
+    web_cert:       "/etc/apache2/ssl"
+    #home_path:     "/var/lib/jenkins/.ssh"
+    jenkins_ssh:    "/var/lib/jenkins/.ssh"
+    root_ssh:       "/root/.ssh"
 
   #tasks:
-  #  - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"	
+  #  - debug: msg="{{ ansible_facts.enp3s0.ipv4.address }}"
   roles:
     - base_linux
+    - vdisks
     - create-sshkey
     - java
     - jenkins
     - remote-agent
-    - apache_httpd    
+    - apache_httpd
     - download_certs
     - mail-client
+
 
 - name: start jenkins and apache
   hosts: control
@@ -32,14 +38,6 @@
     service: name=apache2 state=restarted
   - name: restart jenkins
     service: name=jenkins state=started
-
-
-#- name: copy ssh-key  from /vagrant/keys  to /root/.ssh
-#  hosts: all
-#  become: true
-#  roles:
-#    - role: remote-sshd
-#      when: ansible_facts.virtualization_type == "virtualbox"
 
 
 - name: install ssh-key & install docker
@@ -55,4 +53,38 @@
   - name: jenkins password
     command: cat /var/lib/jenkins/secrets/initialAdminPassword
     register: jenkins_pw
+
+  - name: copy file from control to local
+    fetch: src=/root/.ssh/id_rsa.pub dest=/tmp/id_rsa.pub
+
   - debug: msg="initialAdminPassword = {{ jenkins_pw.stdout_lines }}"
+
+
+- name: copy to build
+  hosts: build1
+  become: true
+  vars:
+    mail_domain: "labo.local"
+    fqdn:        "jenkins.labo.local"
+    web_cert:    "/etc/apache2/ssl"
+
+  roles:
+    - base_linux
+    - docker
+    - kubernetes
+    - java
+    - mail-client
+    - download_certs
+
+  tasks:
+    - name: copy file from local to build1
+      copy: src=/tmp/id_rsa.pub/control/root/.ssh/id_rsa.pub dest=/root/.ssh/id_rsa.pub
+
+    - name: concat pub-key and authorized_keys
+      shell: cat id_rsa.pub >> authorized_keys
+      args:
+        chdir: /root/.ssh
+
+
+
+

@@ -3,9 +3,9 @@
   become: true
   vars:
     mail_domain: "labo.local"
-    fqdn:    jenkins.labo.local    
-    dst_dir:   /etc/apache2/ssl
-    
+    fqdn: "jenkins.labo.local"
+    dst_dir: "/etc/apache2/ssl"
+
   roles:
     - base_linux
     - docker
@@ -13,4 +13,4 @@
     - java
     - mail-client
     - download_certs
-    
+
